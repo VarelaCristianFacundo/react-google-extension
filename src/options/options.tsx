@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './popup.css'
+import './options.css'
 
 // My React component
 const Test = () => <img src="icon.png" />
