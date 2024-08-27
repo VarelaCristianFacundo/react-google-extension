@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "React extension",
+  "version": "1.0.0",
+  "description": "An extension in React",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "React Extension"
+  }
+}
