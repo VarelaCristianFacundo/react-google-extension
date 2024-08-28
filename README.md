@@ -55,13 +55,13 @@ _Google extension Inspect is a Google Chrome extension designed to efficiently i
 **1. Clone this repository to your local machine:.**
 
 ```bash
-git clone https://github.com/VarelaCristianFacundo/history-mark.git
+git clone https://github.com/VarelaCristianFacundo/react-google-extension.git
 ```
 
 **2. Navigate to the project directory:**
 
 ```bash
-cd history-mark
+cd react-google-extension
 ```
 
 **3. Install the necessary dependencies:**
