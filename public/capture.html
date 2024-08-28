@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Captured Content</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      #content {
+        background-color: #f5f5f5;
+        padding: 25px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+      }
+      #code {
+        background-color: #272822;
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        overflow-x: auto;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Captured Content</h1>
+    <!-- Rendered HTML content -->
+    <div id="content"></div>
+
+    <h2>Captured HTML Code</h2>
+    <!-- Display HTML code as text -->
+    <pre id="code"></pre>
+
+    <script defer src="captureScript.js"></script>
+  </body>
+</html>

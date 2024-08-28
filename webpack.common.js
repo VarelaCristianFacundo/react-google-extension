@@ -6,8 +6,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   entry: {
     options: path.resolve('src/options/options.tsx'),
-    capture: path.resolve('src/capture/capture.tsx'),
-    index: path.resolve('src/index.tsx'),
     background: path.resolve('src/background/background.ts'),
     contentScript: path.resolve('src/contentScript/contentScript.ts'),
     captureScript: path.resolve('src/captureScript/captureScript.ts'),
@@ -39,9 +37,11 @@ module.exports = {
           from: path.resolve('src/static'),
           to: path.resolve('dist'),
         },
+        { from: 'public/capture.html', to: 'capture.html' },
+        { from: 'public/index.html', to: 'index.html' },
       ],
     }),
-    ...getHtmlPlugins(['options', 'capture', 'index']),
+    ...getHtmlPlugins(['options']),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
