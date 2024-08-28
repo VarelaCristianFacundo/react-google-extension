@@ -12,3 +12,4 @@ document.body.appendChild(rootElement);
 // A root and render my component
 const root = createRoot(rootElement);
 root.render(<Test />);
+
