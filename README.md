@@ -16,7 +16,7 @@ _Google extension Inspect is a Google Chrome extension designed to efficiently i
 
 ## Demo Video
 
-![Google Extension React](videos/Google Extension React.gif)
+> ![Google Extension React](videos/GoogleExtensionReact.gif 'Google Extension React')
 
 ## Project Structure
 
