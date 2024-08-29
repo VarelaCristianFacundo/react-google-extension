@@ -1,6 +1,6 @@
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
-const HtmlPLugin = require('html-webpack-plugin')
+const HtmlPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     options: path.resolve('src/options/options.tsx'),
     background: path.resolve('src/background/background.ts'),
     contentScript: path.resolve('src/contentScript/contentScript.ts'),
-    captureScript: path.resolve('src/captureScript/captureScript.ts'),
+    captureScript: path.resolve('src/capture/capture.tsx'),
   },
   module: {
     rules: [
@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false, // remove old assets when assets are removed from the webpack cache
+      cleanStaleWebpackAssets: false,
     }),
     new CopyPlugin({
       patterns: [
@@ -37,10 +37,12 @@ module.exports = {
           from: path.resolve('src/static'),
           to: path.resolve('dist'),
         },
-        { from: 'src/capture/capture.html', to: 'capture.html' },
       ],
     }),
-    ...getHtmlPlugins(['options']),
+    ...getHtmlPlugins({
+      options: 'options.html',
+      captureScript: 'capture.html',
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -56,13 +58,27 @@ module.exports = {
   },
 }
 
-function getHtmlPlugins(chunks) {
-  return chunks.map(
-    (chunk) =>
-      new HtmlPLugin({
+function getHtmlPlugins(entries) {
+  return Object.entries(entries).map(
+    ([chunk, filename]) =>
+      new HtmlPlugin({
         title: 'React Extension',
-        filename: `${chunk}.html`,
+        filename: filename,
         chunks: [chunk],
+        inject: true,
+        templateContent: `
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>${chunk}</title>
+            </head>
+            <body>
+              <div id="root"></div> <!-- Contenedor para el componente React -->
+            </body>
+          </html>
+        `,
       })
   )
 }
