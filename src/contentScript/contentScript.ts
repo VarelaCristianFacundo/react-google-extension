@@ -2,21 +2,36 @@ import './contentScript.css'
 import { GlobalState } from '../global'
 
 let currentElement: HTMLElement | null = null
+let isCapturing: boolean = false // flag to prevent multiple captures
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.captureMode !== undefined) {
-    console.log(message.captureMode)
     GlobalState.isCaptureMode = message.captureMode
-    console.log('Capture mode:', GlobalState.isCaptureMode)
+
     if (!GlobalState.isCaptureMode && currentElement) {
       resetHighlight(currentElement)
       currentElement = null
     }
+
+    isCapturing = false // Flag reset when capture mode is inactive
+
+    // clean state when inactive capture mode
+    if (!GlobalState.isCaptureMode) {
+      resetCaptureState()
+    }
   }
 })
 
-document.addEventListener('mousemove', (event: MouseEvent) => {
-  if (!GlobalState.isCaptureMode) return
+// Clean previous listeners
+document.removeEventListener('mousemove', handleMouseMove)
+document.removeEventListener('click', handleClick)
+
+// register new listeners
+document.addEventListener('mousemove', handleMouseMove)
+document.addEventListener('click', handleClick)
+
+function handleMouseMove(event: MouseEvent) {
+  if (!GlobalState.isCaptureMode || isCapturing) return
 
   const element = document.elementFromPoint(
     event.clientX,
@@ -31,25 +46,41 @@ document.addEventListener('mousemove', (event: MouseEvent) => {
 
   highlightElement(element)
   currentElement = element
-})
+}
 
-document.addEventListener('click', (event: MouseEvent) => {
-  if (!GlobalState.isCaptureMode || !currentElement) return
+function handleClick(event: MouseEvent) {
+  if (!GlobalState.isCaptureMode || !currentElement || isCapturing) return
 
   event.preventDefault()
   event.stopPropagation()
+
+  // flag activate to prevent multiples captures
+  isCapturing = true
 
   // HTML capture
   const capturedContent = currentElement.outerHTML
   chrome.runtime.sendMessage({ action: 'capture', content: capturedContent })
 
-  resetHighlight(currentElement)
-  currentElement = null
+  // reset all states after capture has completed
+  resetCaptureState()
+}
+
+function resetCaptureState() {
+  if (currentElement) {
+    resetHighlight(currentElement)
+    currentElement = null
+  }
   GlobalState.isCaptureMode = false
+  isCapturing = false
+
+  // Delete listeners
+  document.removeEventListener('mousemove', handleMouseMove)
+  document.removeEventListener('click', handleClick)
+
   chrome.runtime.sendMessage({ captureMode: false })
 
-  console.log('Captured content sent:', capturedContent)
-})
+  console.log('Capture completed or canceled, state reset')
+}
 
 function highlightElement(element: HTMLElement) {
   element.classList.add('highlight')
