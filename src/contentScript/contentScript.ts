@@ -1,4 +1,6 @@
+import './contentScript.css'
 import { GlobalState } from '../global'
+
 let currentElement: HTMLElement | null = null
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -50,38 +52,9 @@ document.addEventListener('click', (event: MouseEvent) => {
 })
 
 function highlightElement(element: HTMLElement) {
-  element.style.animation = 'none'
-  element.style.transition = 'box-shadow 0.5s ease, transform 0.5s ease'
-  element.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'
-  element.style.border = '2px solid rgba(255, 69, 0, 0.8)'
-  element.style.boxShadow = '0 0 20px rgba(255, 69, 0, 0.8)'
-
-  element.style.animation = 'pulse 1s infinite'
-
-  const styleSheet = document.styleSheets[0]
-  const keyframes = `
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 69, 0, 0.8);
-      }
-      50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(255, 69, 0, 1);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 69, 0, 0.8);
-      }
-    }
-  `
-  styleSheet.insertRule(keyframes, styleSheet.cssRules.length)
+  element.classList.add('highlight')
 }
 
 function resetHighlight(element: HTMLElement) {
-  element.style.backgroundColor = ''
-  element.style.border = ''
-  element.style.transition = ''
-  element.style.animation = ''
-  element.style.boxShadow = ''
+  element.classList.remove('highlight')
 }

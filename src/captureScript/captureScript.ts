@@ -30,25 +30,25 @@ if (navbarIcon) {
 // Wait DOM is loaded and get the content captured
 document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.local.get('capturedContent', (data) => {
-    const contentElement = document.getElementById('content') as HTMLDivElement;
-    const codeElement = document.getElementById('code') as HTMLPreElement;
+    const contentElement = document.getElementById('content') as HTMLDivElement
+    const codeElement = document.getElementById('code') as HTMLPreElement
 
     if (contentElement && codeElement) {
-      // Mostrar el HTML capturado renderizado
-      contentElement.innerHTML = data.capturedContent || 'No content captured';
+      // HTML captured
+      contentElement.innerHTML = data.capturedContent || 'No content captured'
 
-      // Mostrar el código HTML capturado como texto
-      codeElement.innerText = data.capturedContent || 'No content captured';
+      // HTML captured as text
+      codeElement.innerText = data.capturedContent || 'No content captured'
 
-      // Asegúrate de que las imágenes se muestren correctamente
-      const images = contentElement.querySelectorAll('img');
+      // imgs
+      const images = contentElement.querySelectorAll('img')
       images.forEach((img) => {
         if (!img.complete || img.naturalWidth === 0) {
-          img.src = img.getAttribute('data-original-src') || img.src;
+          img.src = img.getAttribute('data-original-src') || img.src
         }
-      });
+      })
 
-      console.log('Captured content:', data.capturedContent);
+      console.log('Captured content:', data.capturedContent)
     }
-  });
-});
+  })
+})
