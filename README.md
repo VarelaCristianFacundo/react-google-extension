@@ -14,10 +14,14 @@ _Google extension Inspect is a Google Chrome extension designed to efficiently i
 
 - Capture Support: Capture parts of the page to document errors or specific features.
 
+## Demo Video
+
+![Google Extension React](videos/Google Extension React.gif)
+
 ## Project Structure
 
 ```plaintext
-└── 📁Google extension react
+└── 📁react-google-extension
     └── .gitignore
     └── package-lock.json
     └── package.json
@@ -27,10 +31,11 @@ _Google extension Inspect is a Google Chrome extension designed to efficiently i
         └── 📁background
             └── background.ts
         └── 📁capture
-            └── capture.html
+            └── capture.tsx
         └── 📁captureScript
             └── captureScript.ts
         └── 📁contentScript
+            └── contentScript.css
             └── contentScript.ts
         └── global.ts
         └── 📁options
@@ -45,6 +50,10 @@ _Google extension Inspect is a Google Chrome extension designed to efficiently i
             └── inactive-icon.png
             └── manifest.json
     └── tsconfig.json
+    └── 📁videos
+        └── Google Extension React - Code.mp4
+        └── Google Extension React - Functionality.mp4
+        └── Google Extension React.gif
     └── webpack.common.js
     └── webpack.dev.js
     └── webpack.prod.js
